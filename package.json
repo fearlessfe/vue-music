@@ -5,12 +5,14 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "server": "node src/server/server.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "better-scroll": "^1.15.1",
     "core-js": "^2.6.5",
+    "express": "^4.16.4",
     "fastclick": "^1.0.6",
     "jsonp": "^0.2.1",
     "vue": "^2.6.6",

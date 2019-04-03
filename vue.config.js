@@ -11,5 +11,8 @@ module.exports = {
       .set('common', resolve('src/common'))
       .set('api', resolve('src/api'))
       .set('views', resolve('src/views'))
+  },
+  devServer: {
+    proxy: 'http://localhost:3333'
   }
 }
