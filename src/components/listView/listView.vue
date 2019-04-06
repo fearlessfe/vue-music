@@ -11,11 +11,11 @@
         </ul>
       </li>
     </ul>
-    <!-- <div class="list-shortcut">
+    <div class="list-shortcut">
       <ul>
         <li v-for="item in shortcutList" :key="item" class="item">{{item}}</li>
       </ul>
-    </div> -->
+    </div>
   </scroll>
 </template>
 <script>
@@ -66,23 +66,23 @@ export default {
         margin-left 28px
         color $color-text-l
         font-size $font-size-medium
-  // .list-shortcut
-  //   position absolute
-  //   z-index 30
-  //   right 0
-  //   top 120px
+  .list-shortcut
+    position absolute
+    z-index 30
+    right 0
+    top 120px
     // transform translateY(-50%)
-    // width 80px
-    // padding 20px 0
-    // border-radius 10px
-    // text-align center
-    // background $color-background
-    // font-family Helvetica
-    // .item
-    //   padding 10px
-    //   line-height 1
-    //   color $color-text-l
-    //   font-size $font-size-small
-    //   &.current
-    //     color: $color-theme
+    width 80px
+    padding 20px 0
+    border-radius 10px
+    text-align center
+    background $color-background
+    font-family Helvetica
+    .item
+      padding 10px
+      line-height 1
+      color $color-text-l
+      font-size $font-size-small
+      &.current
+        color: $color-theme
 </style>
