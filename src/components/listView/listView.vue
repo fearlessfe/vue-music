@@ -11,15 +11,16 @@
         </ul>
       </li>
     </ul>
-    <div class="list-shortcut">
+    <div class="list-shortcut" @touchstart="onShortcutTouchStart">
       <ul>
-        <li v-for="item in shortcutList" :key="item" class="item">{{item}}</li>
+        <li v-for="(item, index) in shortcutList" :key="item" class="item" :data-index="index">{{item}}</li>
       </ul>
     </div>
   </scroll>
 </template>
 <script>
 import Scroll from '../scroll/scroll'
+import { getData } from 'common/js/dom'
 export default {
   props: {
     data: {
@@ -32,6 +33,12 @@ export default {
       return Object.keys(this.data).filter(item => !!item)
     }
   },
+  methods: {
+    onShortcutTouchStart (e) {
+      let anchorIndex = getData(e.target, 'index')
+      return anchorIndex
+    }
+  },
   components: {
     Scroll
   }
@@ -41,9 +48,6 @@ export default {
 @import "~common/stylus/variable"
 .listview
   position relative
-  width 100%
-  height 100%
-  overflow hidden
   background-color $color-background
   .list-group
     padding-bottom 30px

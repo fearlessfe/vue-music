@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="singer">
     <list-view :data="singerList"></list-view>
   </div>
 </template>
@@ -52,3 +52,11 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.singer {
+  height 100%;
+  width 100%;
+  overflow hidden
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div ref="wrapper">
+  <div ref="wrapper" class="wrapper">
     <slot></slot>
   </div>
 </template>
@@ -53,6 +53,20 @@ export default {
   },
   refresh () {
     this.scroll && this.scroll.refresh()
+  },
+  scrollTo () {
+    this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
+  },
+  scrollToElement () {
+    this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.wrapper {
+  width 100%
+  height 100%
+  overflow hidden
+}
+</style>
