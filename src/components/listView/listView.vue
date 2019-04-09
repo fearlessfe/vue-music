@@ -9,7 +9,7 @@
   >
     <ul>
       <li v-for="(value, key) in data" :key="key" ref="listGroup" class="list-group">
-        <h2 class="list-group-title">{{key}}</h2>
+        <h2 class="list-group-title">{{key ? key : '儿歌'}}</h2>
         <ul>
           <li class="list-group-item" v-for="item in value" :key="item.id">
             <img v-lazy="item.pic" class="avatar">
@@ -33,6 +33,9 @@
         >{{item}}</li>
       </ul>
     </div>
+    <div class="list-fixed" v-show="fixTitle" ref="fixed">
+      <div class="fixed-title">{{fixTitle}}</div>
+    </div>
   </scroll>
 </template>
 <script>
@@ -40,11 +43,13 @@ import Scroll from '../scroll/scroll'
 import { getData } from 'common/js/dom'
 
 const ANCHOR_HEIGHT = 32
+const TITLE_HEIGHT = 30
 export default {
   data () {
     return {
       scrollY: -1,
-      currentIndex: 0
+      currentIndex: 0,
+      diff: -1
     }
   },
   props: {
@@ -55,7 +60,13 @@ export default {
   },
   computed: {
     shortcutList () {
-      return Object.keys(this.data).filter(item => !!item)
+      return Object.keys(this.data).map(item => item || '儿歌')
+    },
+    fixTitle () {
+      if (this.scrollY > 0) return ''
+      return this.shortcutList[this.currentIndex]
+        ? this.shortcutList[this.currentIndex]
+        : ''
     }
   },
   watch: {
@@ -76,11 +87,18 @@ export default {
         let height2 = listHeight[i + 1]
         if (-newY >= height1 && -newY < height2) {
           this.currentIndex = i
+          this.diff = height2 + newY
           return
         }
       }
       // 当滚动到底部，且-newY大于最后一个元素的上限
       this.currentIndex = listHeight.length - 2
+    },
+    diff (newVal) {
+      let fixedTop = (newVal > 0 && newVal < TITLE_HEIGHT) ? newVal - TITLE_HEIGHT : 0
+      if (this.fixedTop === fixedTop) return
+      this.fixedTop = fixedTop
+      this.$refs.fixed.style.transform = `translate3d(0,${fixedTop}px,0)`
     }
   },
   created () {
@@ -113,10 +131,8 @@ export default {
       }
       if (index < 0) {
         index = 0
-      } else if (index > this.listHeight.length - 3) {
-        index = this.listHeight.length - 3
-        console.log(this.listHeight.length)
-        console.log(index)
+      } else if (index > this.listHeight.length - 2) {
+        index = this.listHeight.length - 2
       }
 
       this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
@@ -199,6 +215,22 @@ export default {
       &.current {
         color: $color-theme;
       }
+    }
+  }
+
+  .list-fixed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    .fixed-title {
+      height: 30px;
+      line-height: 30px;
+      padding-left: 20px;
+      font-size: $font-size-small;
+      color: $color-text-l;
+      background: $color-highlight-background;
     }
   }
 }
