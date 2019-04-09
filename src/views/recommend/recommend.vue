@@ -63,10 +63,8 @@ export default {
     },
     loadImage () {
       if (!this.checkLoaded) {
-        this.$nextTick().then(() => {
-          this.$refs.scroll.refresh()
-          this.checkLoaded = true
-        })
+        this.checkloaded = true
+        this.$refs.scroll.refresh()
       }
     }
   },

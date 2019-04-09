@@ -55,8 +55,9 @@ export default {
 
 <style lang="stylus" scoped>
 .singer {
-  height 100%;
-  width 100%;
-  overflow hidden
+  position fixed
+  width 100%
+  top 88px
+  bottom 0
 }
 </style>
