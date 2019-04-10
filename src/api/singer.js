@@ -1,5 +1,6 @@
-import { commonParams } from './config'
+
 import Axios from 'axios'
+import { commonParams } from './config'
 
 export function getSinger () {
   // const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg?-=recom9548731252966711'
@@ -20,4 +21,28 @@ export function getSinger () {
     return Promise.resolve(res.data)
   })
   // return jsonp(url, data, options)
+}
+
+export function getSingerDetail (mid) {
+  const url = '/api/getSingerDetail'
+
+  const data = Object.assign({}, commonParams, {
+    g_tk: 1034755902,
+    loginUin: 0,
+    hostUin: 0,
+    needNewCode: 0,
+    uin: 505380967,
+    platform: 'yqq',
+    ct: 24,
+    singermid: mid,
+    order: 'listen',
+    begin: 0,
+    num: 30
+  })
+
+  return Axios.get(url, {
+    params: data
+  }).then(res => {
+    return Promise.resolve(res.data)
+  })
 }
