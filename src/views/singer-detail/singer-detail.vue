@@ -34,7 +34,6 @@ export default {
       getSingerDetail(this.singer.mid).then(res => {
         if (res.code === ERR_OK) {
           this.data = this._normalizeSongs(res.data.list)
-          console.log(this.data)
         }
       })
     },
@@ -42,7 +41,7 @@ export default {
       let ret = []
       list.map(item => {
         let { musicData } = item
-        if (musicData.songmid && musicData.alnummid) {
+        if (musicData.songmid && musicData.albummid) {
           ret.push(createSong(musicData))
         }
       })
