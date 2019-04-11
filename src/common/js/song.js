@@ -1,13 +1,14 @@
 import Axios from 'axios'
 import { commonParams } from 'api/config'
 export default class Song {
-  constructor ({ songid, songmid, songtype, singer, songname, albummid }) {
+  constructor ({ songid, songmid, songtype, singer, songname, albummid, albumname }) {
     this.songid = songid
     this.songmid = songmid
     this.songname = songname
     this.songtype = songtype
     this.singer = singer
     this.albummid = albummid
+    this.albumname = albumname
     this.image = `http://y.gtimg.cn/music/photo_new/T002R300x300${albummid}.jpg?max_age=2592000` // eslint-disable-line
     getSongUrl(songmid).then(res => {
       this.url = res
