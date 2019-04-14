@@ -37,7 +37,7 @@ export function getSingerDetail (mid) {
     singermid: mid,
     order: 'listen',
     begin: 0,
-    num: 30
+    num: 20
   })
 
   return Axios.get(url, {

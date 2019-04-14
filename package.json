@@ -12,6 +12,7 @@
     "axios": "^0.18.0",
     "better-scroll": "^1.15.1",
     "core-js": "^2.6.5",
+    "create-keyframe-animation": "^0.1.0",
     "express": "^4.16.4",
     "fastclick": "^1.0.6",
     "jsonp": "^0.2.1",

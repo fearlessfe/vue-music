@@ -9,7 +9,7 @@ export default class Song {
     this.singer = singer
     this.albummid = albummid
     this.albumname = albumname
-    this.image = `http://y.gtimg.cn/music/photo_new/T002R300x300${albummid}.jpg?max_age=2592000` // eslint-disable-line
+    this.image = `http://y.gtimg.cn/music/photo_new/T002R300x300M000${albummid}.jpg?max_age=2592000` // eslint-disable-line
     getSongUrl(songmid).then(res => {
       this.url = res
     })
