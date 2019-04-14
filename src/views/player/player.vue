@@ -66,7 +66,9 @@
           <p class="desc"></p>
         </div>
         <div class="control">
-          <i @click.stop="togglePlay" :class="miniIcon"></i>
+          <progress-circle :radius="radius" :percent="percent">
+            <i @click.stop="togglePlay" :class="miniIcon" class="icon-mini"></i>
+          </progress-circle>
         </div>
         <div class="control">
           <i class="icon-playlist"></i>
@@ -74,6 +76,7 @@
       </div>
     </transition>
     <audio
+      @ended="ended"
       @durationchange="setDuration"
       @timeupdate="updateTime"
       @canplay="ready"
@@ -84,12 +87,14 @@
 import { mapGetters, mapMutations } from 'vuex'
 // import animations from 'create-keyframe-animation'
 import ProgressBar from 'components/progress-bar/progress-bar'
+import ProgressCircle from 'components/progress-circle/progress-circle'
 export default {
   data () {
     return {
       songReady: false,
       currentTime: 0,
-      duration: 0
+      duration: 0,
+      radius: 32
     }
   },
   computed: {
@@ -149,6 +154,9 @@ export default {
     },
     ready () {
       this.songReady = true
+    },
+    ended () {
+      this.next()
     },
     setDuration () {
       this.duration = this.$refs.audio.duration
@@ -244,7 +252,8 @@ export default {
     }
   },
   components: {
-    ProgressBar
+    ProgressBar,
+    ProgressCircle
   }
 }
 </script>
