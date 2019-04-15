@@ -65,6 +65,21 @@ app.get('/api/getVkey', function (req, res) {
   })
 })
 
+app.get('/api/getLyric', function (req, res) {
+  const url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_yqq.fcg?-=jsonp1'
+  axios.get(url, {
+    headers: {
+      origin: 'https://y.qq.com',
+      referer: 'https://y.qq.com/'
+    },
+    params: req.query
+  }).then(response => {
+    res.json(response.data)
+  }).catch(err => {
+    console.log(err.response.data)
+  })
+})
+
 app.listen(3333, function () {
   console.log('server is open on 3333')
 })

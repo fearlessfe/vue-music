@@ -31,12 +31,14 @@ import Scroll from 'components/scroll/scroll'
 import SongList from 'components/song-list/song-list'
 import Loading from 'components/loading/loading'
 import { prefixStyle } from 'common/js/dom'
+import { playListMixin } from 'common/js/mixin'
 
 const RESERVED_HEIGHT = 40
 const transform = prefixStyle('transform')
 const backdrop = prefixStyle('backdrop-filter')
 
 export default {
+  mixins: [playListMixin],
   props: {
     bgImage: {
       type: String,
@@ -118,6 +120,11 @@ export default {
       this.randomPlay({
         list: this.songs
       })
+    },
+    handlePlayList (playList) {
+      const bottom = playList.length > 0 ? '60px' : ''
+      this.$refs.list.$el.style.bottom = bottom
+      this.$refs.list.refresh()
     },
     ...mapActions([
       'selectPlay',

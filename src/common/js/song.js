@@ -1,5 +1,7 @@
 import Axios from 'axios'
-import { commonParams } from 'api/config'
+import { commonParams, ERR_OK } from 'api/config'
+import { getLyric } from 'api/song'
+import { Base64 } from 'js-base64'
 export default class Song {
   constructor ({ songid, songmid, songtype, singer, songname, albummid, albumname }) {
     this.songid = songid
@@ -10,8 +12,25 @@ export default class Song {
     this.albummid = albummid
     this.albumname = albumname
     this.image = `http://y.gtimg.cn/music/photo_new/T002R300x300M000${albummid}.jpg?max_age=2592000` // eslint-disable-line
+
     getSongUrl(songmid).then(res => {
       this.url = res
+    })
+  }
+
+  getLyric () {
+    if (this.lyric) {
+      return Promise.resolve(this.lyric)
+    }
+    return new Promise((resolve, reject) => {
+      getLyric(this.songid).then(res => {
+        if (res.code === ERR_OK) {
+          this.lyric = Base64.decode(res.lyric)
+          resolve(this.lyric)
+        } else {
+          reject(new Error('no lyric'))
+        }
+      })
     })
   }
 }
