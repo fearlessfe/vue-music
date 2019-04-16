@@ -33,3 +33,27 @@ export function getDiscList () {
   })
   // return jsonp(url, data, options)
 }
+
+export function getSongList (id) {
+  const url = '/api/getSongList'
+  const data = {
+    type: 1,
+    json: 1,
+    onlysong: 1,
+    disstid: id,
+    g_tk: 726039888,
+    loginUin: 505380967,
+    hostUin: 0,
+    platform: 'yqq.json',
+    needNewCode: 0,
+    format: 'json',
+    inCharset: 'utf-8',
+    outCharset: 'utf-8',
+    notice: 0
+  }
+  return Axios.get(url, {
+    params: data
+  }).then(res => {
+    return Promise.resolve(res.data)
+  })
+}
