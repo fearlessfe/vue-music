@@ -95,6 +95,21 @@ app.get('/api/getSongList', function (req, res) {
   })
 })
 
+app.get('/api/getTopList', function (req, res) {
+  const url = 'https://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg'
+  axios.get(url, {
+    headers: {
+      origin: 'https://y.qq.com',
+      referer: 'https://y.qq.com/'
+    },
+    params: req.query
+  }).then(response => {
+    res.json(response.data)
+  }).catch(err => {
+    console.log(err.response.data)
+  })
+})
+
 app.listen(3333, function () {
   console.log('server is open on 3333')
 })
