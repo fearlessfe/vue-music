@@ -24,7 +24,7 @@ export default {
       return this.singer.name
     },
     bgImage () {
-      return this.singer.pic
+      return this.singer.avatar
     }
   },
   created () {
@@ -32,11 +32,11 @@ export default {
   },
   methods: {
     _getDetail () {
-      if (!this.singer.mid) {
+      if (!this.singer.id) {
         this.$router.push('/singer')
         return
       }
-      getSingerDetail(this.singer.mid).then(res => {
+      getSingerDetail(this.singer.id).then(res => {
         if (res.code === ERR_OK) {
           this.data = this._normalizeSongs(res.data.list)
         }

@@ -11,6 +11,7 @@ import { getSinger } from 'api/singer'
 import { ERR_OK } from 'api/config'
 import { mapMutations } from 'vuex'
 import { playListMixin } from 'common/js/mixin'
+import Singer from 'common/js/singer'
 export default {
   mixins: [playListMixin],
   data () {
@@ -45,20 +46,32 @@ export default {
       const map = {}
       list.map(item => {
         if (map[item.country]) {
-          map[item.country].push({
-            id: item.singer_id,
-            name: item.singer_name,
-            pic: item.singer_pic,
-            mid: item.singer_mid
-          })
+          map[item.country].push(
+            new Singer({
+              id: item.singer_mid,
+              name: item.singer_name
+            })
+          // {
+          //   id: item.singer_id,
+          //   name: item.singer_name,
+          //   pic: item.singer_pic,
+          //   mid: item.singer_mid
+          // }
+          )
         } else {
           map[item.country] = []
-          map[item.country].push({
-            id: item.singer_id,
-            name: item.singer_name,
-            pic: item.singer_pic,
-            mid: item.singer_mid
-          })
+          map[item.country].push(
+            new Singer({
+              id: item.singer_mid,
+              name: item.singer_name
+            })
+          //   {
+          //   id: item.singer_id,
+          //   name: item.singer_name,
+          //   pic: item.singer_pic,
+          //   mid: item.singer_mid
+          // }
+          )
         }
       })
       return map
