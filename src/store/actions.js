@@ -36,3 +36,44 @@ export const randomPlay = function ({ commit }, { list }) {
   commit(types.SET_FULL_SCREEN, true)
   commit(types.SET_PLAYING_STATE, true)
 }
+
+export const insertSong = function ({ commit, state }, song) {
+  let playlist = state.playList.slice()
+  let sequenceList = state.sequenceList.slice()
+  let currentIndex = state.currentIndex
+  // 当前歌曲
+  let currentSong = playlist[currentIndex]
+  // 插入的歌曲是否在列表中，返回其index
+  let findPlayIndex = findIndex(playlist, song)
+  // 当前播放歌曲后插入新的歌曲
+  currentIndex++
+  playlist.splice(currentIndex, 0, song)
+
+  if (findPlayIndex > -1) {
+    if (currentIndex > findPlayIndex) {
+      playlist.splice(findPlayIndex, 1)
+      currentIndex--
+    } else {
+      playlist.splice(findPlayIndex + 1, 1)
+    }
+  }
+
+  let currentSeqIndex = findIndex(sequenceList, currentSong) + 1
+  let findSeqIndex = findIndex(sequenceList, song)
+
+  sequenceList.splice(currentIndex, 0, song)
+
+  if (findSeqIndex > -1) {
+    if (currentSeqIndex > findSeqIndex) {
+      sequenceList.splice(findSeqIndex, 1)
+    } else {
+      playlist.splice(findIndex + 1, 1)
+    }
+  }
+
+  commit(types.SET_PLAYLIST, playlist)
+  commit(types.SET_SEQUENCE_LIST, sequenceList)
+  commit(types.SET_CURRENT_INDEX, currentIndex)
+  commit(types.SET_FULL_SCREEN, true)
+  commit(types.SET_PLAYING_STATE, true)
+}

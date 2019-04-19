@@ -2,7 +2,9 @@
   <scroll class="suggest"
     :data="result"
     :pullup="pullup"
+    :beforeScroll="beforeScroll"
     @scrollToEnd="searchMore"
+    @beforeScroll="listScroll"
     ref="suggest"
   >
     <ul class="suggest-list">
@@ -16,6 +18,9 @@
       </li>
       <loading v-show="hasMore" title=""></loading>
     </ul>
+    <div class="no-result-wrapper" v-show="!hasMore && !result.length">
+      <no-result title="抱歉,暂无搜索结果"></no-result>
+    </div>
   </scroll>
 </template>
 <script>
@@ -25,12 +30,15 @@ import { createSong } from 'common/js/song'
 import Singer from 'common/js/singer'
 import Scroll from 'components/scroll/scroll'
 import Loading from 'components/loading/loading'
-import { mapMutations } from 'vuex'
+import NoResult from 'components/no-result/no-result'
+import { mapMutations, mapActions } from 'vuex'
+// import { playListMixin } from 'common/js/mixin'
 
 const TYPE_SINGER = 'singer'
 const perpage = 20
 
 export default {
+  // mixins: [playListMixin],
   props: {
     query: {
       type: String,
@@ -46,7 +54,8 @@ export default {
       page: 1,
       result: [],
       pullup: true,
-      hasMore: true
+      hasMore: true,
+      beforeScroll: true
     }
   },
   watch: {
@@ -88,8 +97,19 @@ export default {
           path: `/search/${singer.id}`
         })
         this.setSinger(singer)
+      } else {
+        this.insertSong(item)
       }
     },
+    listScroll () {
+      this.$emit('listScroll')
+    },
+    // handlePlayList (playList) {
+    //   const bottom = playList.length > 0 ? '60px' : ''
+    //   return bottom
+    //   this.$refs.singer.style.bottom = bottom
+    //   this.$refs.list.refresh()
+    // },
     getIconCls (item) {
       if (item.type === TYPE_SINGER) {
         return 'icon-mine'
@@ -131,11 +151,15 @@ export default {
     },
     ...mapMutations({
       setSinger: 'SET_SINGER'
-    })
+    }),
+    ...mapActions([
+      'insertSong'
+    ])
   },
   components: {
     Scroll,
-    Loading
+    Loading,
+    NoResult
   }
 }
 </script>
