@@ -12,7 +12,7 @@
         <h2 class="list-group-title">{{key ? key : '儿歌'}}</h2>
         <ul>
           <li @click="selectItem(item)" class="list-group-item" v-for="item in value" :key="item.id">
-            <img v-lazy="item.pic" class="avatar">
+            <img v-lazy="item.avatar" class="avatar">
             <span class="name">{{item.name}}</span>
           </li>
         </ul>
