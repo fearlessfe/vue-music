@@ -1,7 +1,7 @@
 function getRandomInt (min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
-
+// 数组随机排列
 export function shuffle (arr) {
   let array = [...arr]
   for (let i = 0; i < array.length; i++) {
