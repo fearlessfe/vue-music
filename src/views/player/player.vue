@@ -93,11 +93,12 @@
             <i @click.stop="togglePlay" :class="miniIcon" class="icon-mini"></i>
           </progress-circle>
         </div>
-        <div class="control">
+        <div class="control" @click.stop="showPlaylist">
           <i class="icon-playlist"></i>
         </div>
       </div>
     </transition>
+    <playlist ref="playlist"></playlist>
     <audio
       @ended="ended"
       @durationchange="setDuration"
@@ -112,15 +113,17 @@ import { mapGetters, mapMutations } from 'vuex'
 import ProgressBar from 'components/progress-bar/progress-bar'
 import ProgressCircle from 'components/progress-circle/progress-circle'
 import { playMode } from 'common/js/config'
-import { shuffle } from 'common/js/util'
 import { prefixStyle } from 'common/js/dom'
 import Lyric from 'lyric-parser'
 import Scroll from 'components/scroll/scroll'
+import Playlist from 'views/playlist/playlist'
+import { playMixin } from 'common/js/mixin'
 
 const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
 
 export default {
+  mixins: [playMixin],
   data () {
     return {
       songReady: false,
@@ -149,18 +152,10 @@ export default {
     percent () {
       return this.currentTime / this.duration
     },
-    iconMode () {
-      return this.mode === playMode.sequence ? 'icon-sequence'
-        : this.mode === playMode.loop ? 'icon-loop' : 'icon-random'
-    },
     ...mapGetters([
       'fullScreen',
-      'playList',
-      'currentSong',
       'playing',
-      'currentIndex',
-      'mode',
-      'sequenceList'
+      'currentIndex'
     ])
   },
   created () {
@@ -233,30 +228,15 @@ export default {
       }
       this.currentLyric && this.currentLyric.seek(currentTime * 1000)
     },
-    changeMode () {
-      const mode = (this.mode + 1) % 3
-      this.setPlayMode(mode)
-      let list = null
-      if (mode === playMode.random) {
-        list = shuffle(this.sequenceList)
-      } else {
-        list = this.sequenceList
-      }
-      this.resetCurrentIndex(list)
-      this.setPlayList(list)
-    },
-    resetCurrentIndex (list) {
-      let index = list.findIndex((item) => {
-        return item.songid === this.currentSong.songid
-      })
-      this.setCurrentIndex(index)
-    },
     loop () {
       this.$refs.audio.currentTime = 0
       this.$refs.audio.play()
       if (this.currentLyric) {
         this.currentLyric.seek(0)
       }
+    },
+    showPlaylist () {
+      this.$refs.playlist.show()
     },
     // enter(el, done) {
     //   const {x, y, scale} = this._getPosAndScale()
@@ -411,6 +391,7 @@ export default {
   },
   watch: {
     currentSong (newSong, oldSong) {
+      if (!newSong.songmid) return
       if (newSong.songid === oldSong.songid) return
       if (this.currentLyric) {
         this.currentLyric.stop()
@@ -430,7 +411,8 @@ export default {
   components: {
     ProgressBar,
     ProgressCircle,
-    Scroll
+    Scroll,
+    Playlist
   }
 }
 </script>
