@@ -108,7 +108,7 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 // import animations from 'create-keyframe-animation'
 import ProgressBar from 'components/progress-bar/progress-bar'
 import ProgressCircle from 'components/progress-circle/progress-circle'
@@ -203,6 +203,7 @@ export default {
     },
     ready () {
       this.songReady = true
+      this.savePlayHistory(this.currentSong)
     },
     ended () {
       if (this.mode === playMode.loop) {
@@ -387,7 +388,10 @@ export default {
       setCurrentIndex: 'SET_CURRENT_INDEX',
       setPlayMode: 'SET_PLAY_MODE',
       setPlayList: 'SET_PLAYLIST'
-    })
+    }),
+    ...mapActions([
+      'savePlayHistory'
+    ])
   },
   watch: {
     currentSong (newSong, oldSong) {

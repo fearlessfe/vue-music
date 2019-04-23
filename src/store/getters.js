@@ -21,3 +21,5 @@ export const disc = state => state.disc
 export const topList = stste => stste.topList
 
 export const searchHistory = stste => stste.searchHistory
+
+export const playHistory = stste => stste.playHistory
