@@ -9,7 +9,7 @@
             <span class="clear" @click.stop="showConfirm"><i class="icon-clear"></i></span>
           </h1>
         </div>
-        <scroll :data="sequenceList" ref="listContent" class="list-content">
+        <scroll :refreshesDelay="refreshesDelay" :data="sequenceList" ref="listContent" class="list-content">
           <transition-group name="list" tag="ul">
             <li class="item" ref="listItem" v-for="(item,index) in sequenceList" :key="item.songid" @click="selectItem(item,index)">
               <i class="current" :class="getCurrentIcon(item)"></i>

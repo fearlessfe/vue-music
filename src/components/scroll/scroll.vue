@@ -33,13 +33,20 @@ export default {
     beforeScroll: {
       type: Boolean,
       default: false
+    },
+    refreshesDelay: {
+      type: Number,
+      default: 20
     }
   },
   watch: {
     data () {
-      this.$nextTick().then(() => {
-        this._initScroll()
-      })
+      setTimeout(() => {
+        this.refresh()
+      }, this.refreshesDelay)
+      // this.$nextTick().then(() => {
+      //   this._initScroll()
+      // })
     }
   },
   mounted () {

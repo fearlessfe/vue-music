@@ -71,7 +71,8 @@ export const playMixin = {
 export const searchMixin = {
   data () {
     return {
-      query: ''
+      query: '',
+      refreshesDelay: 120
     }
   },
   computed: {
