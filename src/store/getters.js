@@ -23,3 +23,5 @@ export const topList = stste => stste.topList
 export const searchHistory = stste => stste.searchHistory
 
 export const playHistory = stste => stste.playHistory
+
+export const favoriteList = state => state.favoriteList
